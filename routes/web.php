@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ListingController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('verified')->name('dashboard');
@@ -16,6 +17,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::inertia('/', 'Home')->name('home');
+Route::get('/', [ListingController::class, 'index'])->name('home');
+Route::resource('listing', ListingController::class)->except('index');
 
 require __DIR__.'/auth.php';
