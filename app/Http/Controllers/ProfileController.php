@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -45,5 +46,22 @@ class ProfileController extends Controller
         ]);
 
         return redirect()->route('profile.edit');
+    }
+
+    public function destroy(Request $request) {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        Auth::logout();
+
+        $user->delete();
+        
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home');
     }
 }
