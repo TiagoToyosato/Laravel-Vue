@@ -17,7 +17,7 @@ class ListingController extends Controller
     {
         $listings = Listing::with('user')
             // ->where('title', 'like', '%' . $request->input('search') . '%')
-            ->filter(request(['search'])) // Filter listings based on the search query/Name uma the function after the 'scope'
+            ->filter(request(['search', 'user_id'])) // Filter listings based on the search query/Name uma the function after the 'scope'
             ->latest()
             ->paginate(6)
             ->withQueryString();
